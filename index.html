@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <style>
+        
+        select {
+          font-size: 16px;
+          font-family: 'Roboto', sans-serif;
+          border: none;
+          background: #B2C3F3;
+          color: white;
+          width: 100%;
+          height: 40px;
+        }
+        .centrar {
+          display: block;
+          margin-left: auto;
+          margin-right: auto;
+          width: 50%;
+        }
+      </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="images/logo_p.png" rel="icon">
+    <link href="images/logo_p.png" rel="apple-touch-icon">
+    <title>Login y Register - Biblioteca</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/estilos.css">
+</head>
+<body>
+        <main>
+            <div class="contenedor__todo">
+                <div class="caja__trasera">
+                    <div class="caja__trasera-login">
+                        <h3>¡Ya te haz registrado!</h3>
+                        <p>Inicia para registar tu actividad</p>
+                        <button id="btn__iniciar-sesion">Iniciar Sesión</button>
+                    </div>
+                    <div class="caja__trasera-register">
+                        <h3>Biblioteca Para Todos</h3>
+                        <p>Regístra tus datos</p>
+                        <button id="btn__registrarse">Regístrarte</button>
+                    </div>
+                </div>
+
+                <!--Formulario de Login y registro-->
+                <div class="contenedor__login-register">
+                    <!--Login-->
+                    <form action="php/login_usuario_be.php" method="POST" class="formulario__login">
+                        <img class="centrar" src="images/logo_i.png" alt="UTC" width="100" height="70">
+                        <br>
+                        <h2>Iniciar Sesión</h2>
+                        <input type="text" placeholder="Correo" name="correo" required autofocus>
+                        <input type="password" placeholder="CI" name="ci" required autofocus>
+                        <button>Entrar</button>
+                    </form>
+
+                    <!--Register-->
+                    <form action="php/registro_usuario_be.php" method="POST" class="formulario__register">
+                      <img class="centrar" src="images/logo_i.png" alt="UTC" width="100" height="60">
+                      <br>
+                      <h2>Regístrarse</h2>
+                      <input type="text" placeholder="Cedula" name="cedula" required autofocus>
+                      <input type="text" placeholder="Nombre Y Apellido" name="nombre" required autofocus>
+                      <br>
+                      <br>
+                      <select id="rol" name="rol">
+                        <option value=" Externo">Externo</option>
+                        <option value=" Administrativo">Administrativo</option>
+                        <option value="Trabajadores">Trabajadores</option>
+                        <option value="Estudiante"> Estudiante</option>
+                        <option value="Docente">Docente</option>
+                      </select>
+                      <input type="text" placeholder="Correo" name="correo" required autofocus>
+                      <br>
+                      <br>
+                      <select id="facultad" name="facultad">
+                        <option value="">Seleccione una opción</option>
+                      </select>
+                      <br>
+                      <br>
+                      <select id="carrera" name="carrera">
+                        <option value="">Seleccione una opción</option>
+                      </select>
+                      <button>Regístrarse</button>
+                    </form>
+                    <script>
+                        // Obtener los elementos de los combo box
+                        const rol = document.getElementById("rol");
+                        const facultad = document.getElementById("facultad");
+                        const carrera = document.getElementById("carrera");
+
+                        // Definir las opciones para cada combo box
+                        const opcionesFacultad = {
+                            Docente: ["Facultad de Ciencias Agropecuarias y Recursos Naturales (CAREN)", "Facultad de Ciencias de la Ingeniería y Aplicadas (CIYA)", "Facultad de Ciencias Administrativas y Económicas (CAYE)", "Facultad de Ciencias Sociales Artes y Educación (CSAYE)", "Extensión Pujilí", "Extensión La Maná"],
+                            Estudiante: ["Facultad de Ciencias Agropecuarias y Recursos Naturales (CAREN)", "Facultad de Ciencias de la Ingeniería y Aplicadas (CIYA)", "Facultad de Ciencias Administrativas y Económicas (CAYE)", "Facultad de Ciencias Sociales Artes y Educación (CSAYE)", "Extensión Pujilí", "Extensión La Maná"]
+                        };
+
+                        const opcionesCarrera = {
+                            "Facultad de Ciencias Agropecuarias y Recursos Naturales (CAREN)": ["Agroindustrial", "Veterinaria", "Agronomía", "Ambiente", "Turismo", "Agropecuarias", "Biotecnología"],
+                            "Facultad de Ciencias de la Ingeniería y Aplicadas (CIYA)": ["Sistemas de Información", "Electromecánica", "Industrial", "Electricidad", "Hidráulica"],
+                            "Facultad de Ciencias Administrativas y Económicas (CAYE)": ["Contabilidad y Auditoría", "Gestión de la Información Gerencial", "Administración de Empresas", "Mercadotecnia", "Gestión del Talento Humano", "Economía"],
+                            "Facultad de Ciencias Sociales Artes y Educación (CSAYE)": ["Diseño Gráfico", "Comunicación", "Trabajo Social", "Animación Digital"],
+                            "Extensión Pujilí": ["Educación Inicial", "Educación Básica", "Pedagogía del Idioma Inglés", "Pedagogía de la Lengua y Literatura", "Pedagogía de las Matemáticas y la Física"],
+                            "Extensión La Maná": ["Contabilidad_LM", "Administración_LM", "Electromecánica_LM", "Sistemas de Información_LM", "Turismo_LM", "Agronomía_LM", "Agroindustrias_LM"]
+                        };
+
+                        // Función para actualizar las opciones de la facultad
+                        function actualizarFacultad() {
+                            // Agregar los eventos para actualizar las opciones de los combo box
+                            if (rol.value === "Externo") {
+                                facultad.innerHTML = "<option value=''>Seleccione una opción</option>";
+                                carrera.innerHTML = "<option value=''>Seleccione una opción</option>";
+                            }else{
+                                // Obtener las opciones correspondientes al rol seleccionado
+                                const opciones = opcionesFacultad[rol.value];
+
+                                // Limpiar las opciones anteriores
+                                facultad.innerHTML = "<option value=''>Seleccione una opción</option>";
+
+                                // Agregar las nuevas opciones
+                                opciones.forEach((opcion) => {
+                                    const elemento = document.createElement("option");
+                                    elemento.value = opcion;
+                                    elemento.textContent = opcion;
+                                    facultad.appendChild(elemento);
+                                });
+
+                                // Actualizar las opciones de la carrera
+                                actualizarCarrera();
+                            }
+                        }
+
+                      // Función para actualizar las opciones de la carrera
+                      function actualizarCarrera() {
+                        // Obtener las opciones correspondientes a la facultad seleccionada
+                        const opciones = opcionesCarrera[facultad.value];
+
+                        // Limpiar las opciones anteriores
+                        carrera.innerHTML = "<option value=''>Seleccione una opción</option>";
+
+                        // Agregar las nuevas opciones
+                        opciones.forEach((opcion) => {
+                          const elemento = document.createElement("option");
+                          elemento.value = opcion;
+                          elemento.textContent = opcion;
+                          carrera.appendChild(elemento);
+                        });
+                      }
+
+                      // Agregar los eventos para actualizar las opciones de los combo box
+                      rol.addEventListener("change", actualizarFacultad);
+                      facultad.addEventListener("change", actualizarCarrera);
+                    </script>
+                </div>
+            </div>
+      </main>
+      <script src="js/script.js"></script>
+</body>
+</html>
